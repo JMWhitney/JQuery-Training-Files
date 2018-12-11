@@ -23,7 +23,33 @@
 
       //Rename the correct section(s)
       $("#productName").text(productName + " Product ID: " + productId);
+
+      //Fetch the JSON product data
+      $.get("product-data.json", function (result) {
+        console.log(result);
+
+        //Filter the selection for the current item
+        var productInfo = $.grep(result.products, function (n, i) {
+          return n.prod_id === productId;
+        });
+
+        console.log(productInfo);
+
+        //Set the DOM to display correct information
+        if (productInfo[0].in_stock) {
+          $("#productStock").text("True");
+        } else {
+          $("#productStock").text("False");
+        }
+
+        $("#productPrice").text("$" + productInfo[0].retail_price.toString());
+
+        $("#productDesc").text(productInfo[0].description);
+      });
+
     })
+
+
   </script>
 </head>
 
